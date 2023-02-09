@@ -11,7 +11,17 @@ export default {
   props: ['id', 'name', 'memberCount'],
   methods: {
     teamMembersLink() {
-      return '/teams/' + this.id;
+      return {
+        // path: '/teams/' + this.id,
+        //we can also use this in this.$router.push(*object*)
+        name: 'teamMembers',
+        params: {
+          teamId: this.id,
+        },
+        query: {
+          sort: 'asc',
+        }
+      }
     }
   }
 };
