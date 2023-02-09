@@ -1,48 +1,21 @@
 import { createApp } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
-
-
 import App from './App.vue';
-import TeamsList from './components/teams/TeamsList.vue';
-import UsersList from './components/users/UsersList.vue';
-import TeamMembers from './components/teams/TeamMembers.vue';
-import NotFound from './components/nav/NotFound.vue'
-import TeamFooter from "./components/teams/TeamFooter.vue"
-import UserFooter from "./components/users/UserFooter.vue"
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-        { path: '/', redirect: '/teams' },
-        {
-            name: 'teams',
-            path: '/teams',
-            components: { default: TeamsList, footer: TeamFooter },
-            children: [
-                { name: 'teamMembers', path: ':teamId', component: TeamMembers, props: true, }
-            ],
-        },
-        {
-            path: '/users', components: {
-                default: UsersList,
-                footer: UserFooter
-            }
-        },
-        { path: '/:notFound(.*)', component: NotFound },
-    ],
-    linkActiveClass: 'active',
-    scrollBehavior(_, _2, savedPosition) {
-        if (savedPosition) {
-            return savedPosition;
-        }
-        return {
-            top: 0,
-            left: 0
-        }
+const app = createApp(App);
+import router from "./router.js"
+router.beforeEach((to, from, next) => {
+    console.log("Before Each")
+    console.log(to, from);
+    if (to.needsAuth) {
+        console.log("Needs Authentication")
+        next();
     }
+    next(true);
+    //we can also write like this instead of writing as above
+    //next('/users') or next({name : 'teamMembers',params : {teamId : 't2'}})
 });
-
-const app = createApp(App)
-
+router.afterEach((to, from) => {
+    console.log("Global AfterEach");
+    console.log(to, from);
+});
 app.use(router);
 app.mount('#app');

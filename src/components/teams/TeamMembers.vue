@@ -36,6 +36,11 @@ export default {
       this.members = selectedMembers;
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    console.log("Before Route Update from Team Members");
+    console.log(to, from)
+    next();
+  },
   created() {
     this.loadTeamMembers(this.teamId);
   },
