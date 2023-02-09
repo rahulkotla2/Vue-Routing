@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     loadTeamMembers(teamId) {
-      console.log(this.$route.query)
       const selectedteam = this.teams.find(team => team.id == teamId);
       const members = selectedteam.members;
       const selectedMembers = []
