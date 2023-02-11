@@ -29,7 +29,7 @@ const router = createRouter({
         {
             path: '/users', components: {
                 default: UsersList,
-                footer: UserFooter
+                footer: UserFooter,
             }
         },
         { path: '/:notFound(.*)', component: NotFound },
